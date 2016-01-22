@@ -12,8 +12,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class XsdGeneratePhp extends Command
 {
-    const XSD_NFE_NAMESPACE = 'http://www.portalfiscal.inf.br/nfe';
+    const XSD_FILE_NAMESPACE = 'http://www.portalfiscal.inf.br/';
     const XSD_SIGNATURE_NAMESPACE = 'http://www.w3.org/2000/09/xmldsig#';
+
+    protected $nspace = 'http://www.portalfiscal.inf.br/nfe';
 
     protected function configure()
     {
@@ -24,6 +26,8 @@ class XsdGeneratePhp extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->setFileNamespace($input);
+
         $inputArgs = new XsdGeneratePhpArgs($input);
 
         $converter = new PhpConverter($inputArgs->getNamingStrategy());
@@ -33,10 +37,17 @@ class XsdGeneratePhp extends Command
             $output,
             $converter,
             new SchemaReader(),
-            array(self::XSD_NFE_NAMESPACE, self::XSD_SIGNATURE_NAMESPACE)
+            array($this->nspace, self::XSD_SIGNATURE_NAMESPACE)
         );
         $processor->execute($this);
         return 0;
+    }
+
+    protected function setFileNamespace(InputInterface $input)
+    {
+        $nspc = $input->getOption('namespace');
+        $aNS = explode('\\',$nspc);
+        $this->nspace = self::XSD_FILE_NAMESPACE  . strtolower($aNS[1]);
     }
 
     /**
