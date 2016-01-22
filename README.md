@@ -18,5 +18,4 @@ Atualmente possui os seguintes comandos:
 ./vendor/bin/sped xsd:generate:php schemas/NFe/PL_008g/nfe_v3.10.xsd --namespace=NFePHP\NFe\ --dest=../sped-nfe/src/NFe
 ```
 
-Este comanda irá gerar as classes baseadas na definição do arquivo xsd
-informado no diretório `../sped-nfe/src/NFe` definido no parâmetro `--dest`
+Este comando irá gerar as classes que representam o "Objeto" NFe, baseadas na definição do arquivo xsd informado no diretório `../sped-nfe/src/NFe` definido no parâmetro `--dest`
