@@ -1,6 +1,6 @@
 <?php
 
-namespace NFePHP\XsdConverter;
+namespace NFePHP\Console\XsdConverter;
 
 use Goetas\Xsd\XsdToPhp\Php\PhpConverter as BasePhpConverter;
 

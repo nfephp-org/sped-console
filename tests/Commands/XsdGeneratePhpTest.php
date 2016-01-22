@@ -1,9 +1,9 @@
 <?php
 
-namespace NFePHPTest\Commands;
+namespace NFePHPTest\Console\Commands;
 
 
-use NFePHP\Commands\XsdGeneratePhp;
+use NFePHP\Console\Commands\XsdGeneratePhp;
 use Symfony\Component\Console\Command\Command;
 
 class XsdGeneratePhpTest extends \PHPUnit_Framework_TestCase

@@ -1,14 +1,14 @@
 <?php
 
-namespace NFePHP\Commands\Processors;
+namespace NFePHP\Console\Commands\Processors;
 
 use Goetas\XML\XSDReader\SchemaReader;
 use Goetas\Xsd\XsdToPhp\Php\ClassGenerator;
 use Goetas\Xsd\XsdToPhp\Php\PathGenerator\Psr4PathGenerator;
 use Goetas\Xsd\XsdToPhp\Php\Structure\PHPClass;
-use NFePHP\Commands\InputArgs\XsdGeneratePhp as XsdGeneratePhpArgs;
-use NFePHP\Commands\XsdGeneratePhp as XsdGeneratePhpCommand;
-use NFePHP\XsdConverter\PhpConverter;
+use NFePHP\Console\Commands\InputArgs\XsdGeneratePhp as XsdGeneratePhpArgs;
+use NFePHP\Console\Commands\XsdGeneratePhp as XsdGeneratePhpCommand;
+use NFePHP\Console\XsdConverter\PhpConverter;
 use Symfony\Component\Console\Helper\ProgressHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zend\Code\Generator\FileGenerator;
