@@ -19,4 +19,4 @@ Atualmente possui os seguintes comandos:
 ```
 
 Este comanda irá gerar as classes baseadas na definição do arquivo xsd
-informado no diretório `../sped-nfe/src/NFe` defini no parâmetro `--dest`
+informado no diretório `../sped-nfe/src/NFe` definido no parâmetro `--dest`

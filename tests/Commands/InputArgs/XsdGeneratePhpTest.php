@@ -1,10 +1,10 @@
 <?php
 
-namespace NFePHPTest\Commands\InputArgs;
+namespace NFePHPTest\Console\Commands\InputArgs;
 
 use Goetas\Xsd\XsdToPhp\Naming\LongNamingStrategy;
 use Goetas\Xsd\XsdToPhp\Naming\ShortNamingStrategy;
-use NFePHP\Commands\InputArgs\XsdGeneratePhp;
+use NFePHP\Console\Commands\InputArgs\XsdGeneratePhp;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -59,8 +59,8 @@ class XsdGeneratePhpTest extends \PHPUnit_Framework_TestCase
         return array(
             'destination' => array('getDestination', XsdGeneratePhp::OPTION_DESTINATION, './src', './src'),
             'namespace' => array('getNamespace', XsdGeneratePhp::OPTION_NAMESPACE, 'NFe', 'NFe'),
-            'parent class name' => array('getExtendedClassName', XsdGeneratePhp::OPTION_EXTENDS, \NFePHP\Commands\XsdGeneratePhp::class, 'XsdGeneratePhp'),
-            'parent class namespace' => array('getExtendedClassNamespaceName', XsdGeneratePhp::OPTION_EXTENDS, \NFePHP\Commands\XsdGeneratePhp::class, 'NFePHP\Commands'),
+            'parent class name' => array('getExtendedClassName', XsdGeneratePhp::OPTION_EXTENDS, \NFePHP\Console\Commands\XsdGeneratePhp::class, 'XsdGeneratePhp'),
+            'parent class namespace' => array('getExtendedClassNamespaceName', XsdGeneratePhp::OPTION_EXTENDS, \NFePHP\Console\Commands\XsdGeneratePhp::class, 'NFePHP\Console\Commands'),
             'short naming strategy' => array('getNamingStrategy', XsdGeneratePhp::OPTION_NAMING_STRATEGY, 'short', new ShortNamingStrategy()),
             'long naming strategy' => array('getNamingStrategy', XsdGeneratePhp::OPTION_NAMING_STRATEGY, 'long', new LongNamingStrategy()),
             'custom naming strategy' => array('getNamingStrategy', XsdGeneratePhp::OPTION_NAMING_STRATEGY, '\stdclass', new \stdClass()),

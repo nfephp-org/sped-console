@@ -1,9 +1,9 @@
 <?php
 
-namespace NFePHPTest\XsdConverter;
+namespace NFePHPTest\Console\XsdConverter;
 
 use Goetas\Xsd\XsdToPhp\Naming\ShortNamingStrategy;
-use NFePHP\XsdConverter\PhpConverter;
+use NFePHP\Console\XsdConverter\PhpConverter;
 
 class PhpConverterTest extends \PHPUnit_Framework_TestCase
 {

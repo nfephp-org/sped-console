@@ -16,14 +16,14 @@
     ],
     "authors": [
         {
-            "name": "Roberto L. Machado",
-            "email": "linux.rlm@gmail.com.br",
+            "name": "Antonio Spinelli",
+            "email": "tonicospinelli85@gmail.com",
             "homepage": "http://www.nfephp.org",
             "role": "Developer"
         },
         {
             "name": "Comunidade NFePHP",
-            "homepage": "https://github.com/nfephp-org/sped-classbuilder/graphs/contributors"
+            "homepage": "https://github.com/nfephp-org/sped-console/graphs/contributors"
         }
     ],
     "minimum-stability": "dev",
@@ -47,17 +47,17 @@
     },
     "autoload": {
         "psr-4": {
-            "NFePHP\\": "src/"
+            "NFePHP\\Console\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "NFePHPTest\\NFe\\": "test"
+            "NFePHPTest\\Console\\": "test"
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "4.1-dev"
+            "dev-master": "0.0-dev"
         }
     },
     "bin": ["bin/sped"],
