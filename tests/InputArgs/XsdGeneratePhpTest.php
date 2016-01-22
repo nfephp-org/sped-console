@@ -1,10 +1,10 @@
 <?php
 
-namespace NFePHPTest\Console\Commands\InputArgs;
+namespace NFePHPTest\Console\InputArgs;
 
 use Goetas\Xsd\XsdToPhp\Naming\LongNamingStrategy;
 use Goetas\Xsd\XsdToPhp\Naming\ShortNamingStrategy;
-use NFePHP\Console\Commands\InputArgs\XsdGeneratePhp;
+use NFePHP\Console\InputArgs\XsdGeneratePhp;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

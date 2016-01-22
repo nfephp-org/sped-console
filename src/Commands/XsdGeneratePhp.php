@@ -3,8 +3,8 @@
 namespace NFePHP\Console\Commands;
 
 use Goetas\XML\XSDReader\SchemaReader;
-use NFePHP\Console\Commands\InputArgs\XsdGeneratePhp as XsdGeneratePhpArgs;
-use NFePHP\Console\Commands\Processors\XsdGeneratePhp as XsdGeneratePhpProcessor;
+use NFePHP\Console\InputArgs\XsdGeneratePhp as XsdGeneratePhpArgs;
+use NFePHP\Console\Processors\XsdGeneratePhp as XsdGeneratePhpProcessor;
 use NFePHP\Console\XsdConverter\PhpConverter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
