@@ -19,3 +19,6 @@ Atualmente possui os seguintes comandos:
 ```
 
 Este comando irá gerar as classes que representam o "Objeto" NFe, baseadas na definição do arquivo xsd informado no diretório `../sped-nfe/src/NFe` definido no parâmetro `--dest`
+
+
+O mesmo vale para CTe, MDFe ou CLe
