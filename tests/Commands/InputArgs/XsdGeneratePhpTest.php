@@ -61,6 +61,7 @@ class XsdGeneratePhpTest extends \PHPUnit_Framework_TestCase
             'namespace' => array('getNamespace', XsdGeneratePhp::OPTION_NAMESPACE, 'NFe', 'NFe'),
             'parent class name' => array('getExtendedClassName', XsdGeneratePhp::OPTION_EXTENDS, \NFePHP\Console\Commands\XsdGeneratePhp::class, 'XsdGeneratePhp'),
             'parent class namespace' => array('getExtendedClassNamespaceName', XsdGeneratePhp::OPTION_EXTENDS, \NFePHP\Console\Commands\XsdGeneratePhp::class, 'NFePHP\Console\Commands'),
+            'has parent class' => array('hasExtendedClass', XsdGeneratePhp::OPTION_EXTENDS, \NFePHP\Console\Commands\XsdGeneratePhp::class, true),
             'short naming strategy' => array('getNamingStrategy', XsdGeneratePhp::OPTION_NAMING_STRATEGY, 'short', new ShortNamingStrategy()),
             'long naming strategy' => array('getNamingStrategy', XsdGeneratePhp::OPTION_NAMING_STRATEGY, 'long', new LongNamingStrategy()),
             'custom naming strategy' => array('getNamingStrategy', XsdGeneratePhp::OPTION_NAMING_STRATEGY, '\stdclass', new \stdClass()),
