@@ -15,6 +15,8 @@ use Zend\Code\Generator\FileGenerator;
 
 class XsdGeneratePhp
 {
+    const XSD_SIGNATURE_NAMESPACE = 'http://www.w3.org/2000/09/xmldsig#';
+
     /**
      * @var XsdGeneratePhpArgs
      */
@@ -36,64 +38,73 @@ class XsdGeneratePhp
     private $schemaReader;
 
     /**
-     * @var array
-     */
-    private $targetNamespaces;
-
-    /**
      * XsdGeneratePhp constructor.
      * @param XsdGeneratePhpArgs $input
      * @param OutputInterface $output
      * @param PhpConverter $converter
      * @param SchemaReader $schemaReader
-     * @param array $targetNamespaces
      */
     public function __construct(
         XsdGeneratePhpArgs $input,
         OutputInterface $output,
         PhpConverter $converter,
-        SchemaReader $schemaReader,
-        array $targetNamespaces
-    )
-    {
+        SchemaReader $schemaReader
+    ) {
         $this->input = $input;
         $this->output = $output;
         $this->converter = $converter;
         $this->schemaReader = $schemaReader;
-        $this->targetNamespaces = $targetNamespaces;
+        $this->loadSignatureNamespace($converter, $input);
     }
 
     /**
-     * @param string $targetNamespace
+     * @param PhpConverter $converter
+     * @param XsdGeneratePhpArgs $input
+     * @return void
      */
-    public function addTargetNamespace($targetNamespace)
+    private function loadSignatureNamespace(PhpConverter $converter, XsdGeneratePhpArgs $input)
     {
-        $this->targetNamespaces[] = $targetNamespace;
+        $converter->addNamespace(self::XSD_SIGNATURE_NAMESPACE, $this->getPhpNamespace($input));
     }
 
+    /**
+     * @param XsdGeneratePhpCommand $command
+     */
     public function execute(XsdGeneratePhpCommand $command)
     {
-        $this->mapXsdTargetNamespaces($this->input, $this->output, $this->converter);
+        $schemas = $this->readSchema($this->input, $this->output, $this->converter);
 
         $targets = $this->getTargetDirectories($this->input, $this->output);
 
-        $schemas = $this->readSchema($this->input, $this->output, $this->converter);
+        $this->printMappedNamespaces($this->output, $this->converter);
 
         $this->convert($this->converter, $schemas, $targets, $this->input, $this->output, $command);
     }
 
-    private function mapXsdTargetNamespaces(XsdGeneratePhpArgs $input, OutputInterface $output, PhpConverter $converter)
+    /**
+     * Print all mapped namespaces from converter.
+     * @param OutputInterface $output
+     * @param PhpConverter $converter
+     */
+    private function printMappedNamespaces(OutputInterface $output, PhpConverter $converter)
     {
         $output->writeln("Namespaces:");
-        foreach ($this->targetNamespaces as $xsdTargetNamespace) {
-            $converter->addNamespace($xsdTargetNamespace, trim(strtr($input->getNamespace(), "./", "\\\\"), "\\"));
-            $output->writeln(" + <comment>$xsdTargetNamespace</comment> => <info>{$input->getNamespace()} </info>");
+        foreach ($converter->getNamespaces() as $xsdTargetNamespace => $phpNamespace) {
+            $output->writeln(
+                " + <comment>{$output->getFormatter()->escape($xsdTargetNamespace)}</comment>" .
+                " => <info>{$output->getFormatter()->escape($phpNamespace)}</info>"
+            );
         }
     }
 
+    /**
+     * @param XsdGeneratePhpArgs $input
+     * @param OutputInterface $output
+     * @return array
+     */
     private function getTargetDirectories(XsdGeneratePhpArgs $input, OutputInterface $output)
     {
-        $output->writeln("Target directories:");
+        $output->writeln("Destination:");
         $targets = array(
             $input->getNamespace() => $input->getDestination(),
         );
@@ -109,6 +120,15 @@ class XsdGeneratePhp
         return $targets;
     }
 
+    /**
+     * @param PhpConverter $converter
+     * @param array $schemas
+     * @param array $targets
+     * @param XsdGeneratePhpArgs $input
+     * @param OutputInterface $output
+     * @param XsdGeneratePhpCommand $command
+     * @throws \Goetas\Xsd\XsdToPhp\PathGenerator\PathGeneratorException
+     */
     protected function convert(
         PhpConverter $converter,
         array $schemas,
@@ -116,8 +136,7 @@ class XsdGeneratePhp
         XsdGeneratePhpArgs $input,
         OutputInterface $output,
         XsdGeneratePhpCommand $command
-    )
-    {
+    ) {
         $generator = new ClassGenerator();
         $pathGenerator = new Psr4PathGenerator($targets);
 
@@ -127,15 +146,17 @@ class XsdGeneratePhp
         $progressBar->start($this->output, count($items));
 
         $extendClass = null;
-        if($input->hasExtendedClass()){
+        if ($input->hasExtendedClass()) {
             $extendClass = new PHPClass($input->getExtendedClassName(), $input->getExtendedClassNamespaceName());
         }
+
+        $output->writeln("Generating PHP files");
+
+        $skippedFiles = array();
         /** @var PHPClass $item */
         foreach ($items as $item) {
             $progressBar->advance(1, true);
-            $output->write(" + <info>" . $output->getFormatter()->escape($item->getFullName()) . "</info>... ");
             $path = $pathGenerator->getPath($item);
-
 
             $fileGen = new FileGenerator();
             $fileGen->setFilename($path);
@@ -145,41 +166,55 @@ class XsdGeneratePhp
                 $item->setExtends($extendClass);
             }
 
-            $message = 'skip.';
-            if ($generator->generate($classGen, $item)) {
-
-                $fileGen->setClass($classGen);
-                $fileGen->write();
-                $message = 'done.';
+            if (!$generator->generate($classGen, $item)) {
+                $skippedFiles[] = $item->getFullName();
             }
-            $output->writeln($message);
+            $fileGen->setClass($classGen);
+            $fileGen->write();
         }
         $progressBar->finish();
+
+        if (!empty($skippedFiles)) {
+            foreach ($skippedFiles as $skippedFile) {
+                $output->write(" + <info>" . $output->getFormatter()->escape($skippedFile) . "</info>... ");
+            }
+        }
     }
 
+    /**
+     * @param XsdGeneratePhpArgs $input
+     * @param OutputInterface $output
+     * @param PhpConverter $converter
+     * @return \Goetas\XML\XSDReader\Schema\Schema[]
+     */
     private function readSchema(XsdGeneratePhpArgs $input, OutputInterface $output, PhpConverter $converter)
     {
         $reader = new SchemaReader();
         $schemas = array();
         foreach ($input->getSourceList() as $source) {
-            try {
-                $schema = $this->readSource($reader, $source, $converter, $output);
-                $schemas[spl_object_hash($schema)] = $schema;
-            } catch (\DomainException $exception) {
-                $message = preg_replace(
-                    '/^The namespace (.*) is not /',
-                    ' - Skipped The namespace <comment>$1</comment> is not ',
-                    $exception->getMessage()
-                );
-                $output->writeln($message);
-            }
+            $schema = $this->readSource($input, $output, $converter, $reader, $source);
+            $schemas[spl_object_hash($schema)] = $schema;
         }
         return $schemas;
     }
 
-    private function readSource(SchemaReader $reader, $source, PhpConverter $converter, OutputInterface $output)
-    {
-        $output->writeln("Reading <comment>$source</comment>");
+    /**
+     * @param XsdGeneratePhpArgs $input
+     * @param OutputInterface $output
+     * @param PhpConverter $converter
+     * @param SchemaReader $reader
+     * @param string $source
+     * @return \Goetas\XML\XSDReader\Schema\Schema
+     */
+    private function readSource(
+        XsdGeneratePhpArgs $input,
+        OutputInterface $output,
+        PhpConverter $converter,
+        SchemaReader $reader,
+        $source
+    ) {
+        $output->writeln("Reading:");
+        $output->writeln(" + <comment>{$output->getFormatter()->escape($source)}</comment>");
 
         $xml = new \DOMDocument('1.0', 'UTF-8');
         if (!$xml->load($source)) {
@@ -188,8 +223,17 @@ class XsdGeneratePhp
 
         $targetNamespace = $xml->documentElement->getAttribute("targetNamespace");
         if (!$converter->isNamespaceMapped($targetNamespace)) {
-            throw new \DomainException('The namespace ' . $targetNamespace . ' is not mapped with PHP namespace');
+            $converter->addNamespace($targetNamespace, $this->getPhpNamespace($input));
         }
         return $reader->readFile($source);
+    }
+
+    /**
+     * @param XsdGeneratePhpArgs $input
+     * @return string
+     */
+    private function getPhpNamespace(XsdGeneratePhpArgs $input)
+    {
+        return trim(strtr($input->getNamespace(), "./", "\\\\"), "\\");
     }
 }

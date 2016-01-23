@@ -10,8 +10,10 @@ class PhpConverterTest extends \PHPUnit_Framework_TestCase
 
     public function testIsMappedNamespace()
     {
-        $converter = new PhpConverter(new ShortNamingStrategy());
+        $namingStrategeyMock = $this->getMock(ShortNamingStrategy::class);
+        $converter = new PhpConverter($namingStrategeyMock);
         $converter->addNamespace('http://my.namespace.com', 'My\Namespace');
+        $this->assertCount(3, $converter->getNamespaces());
         $this->assertTrue($converter->isNamespaceMapped('http://my.namespace.com'));
         $this->assertTrue($converter->isNamespaceMapped('My\Namespace'));
     }
