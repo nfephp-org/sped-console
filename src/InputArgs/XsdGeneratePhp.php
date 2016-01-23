@@ -1,11 +1,10 @@
 <?php
 
-namespace NFePHP\Console\Commands\InputArgs;
+namespace NFePHP\Console\InputArgs;
 
 use Goetas\Xsd\XsdToPhp\Naming\LongNamingStrategy;
 use Goetas\Xsd\XsdToPhp\Naming\NamingStrategy;
 use Goetas\Xsd\XsdToPhp\Naming\ShortNamingStrategy;
-use NFePHP\Console\DataTransferObject;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

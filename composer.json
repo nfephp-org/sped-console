@@ -35,13 +35,13 @@
         "ext-libxml": "*",
         "ext-xmlreader": "*",
         "ext-fileinfo": "*",
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "goetas/xsd2php":"2.*@dev",
+        "goetas/xsd-reader":"2.*@dev",
+        "jms/serializer": "~1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~5.1",
-        "goetas/xsd2php":"2.*@dev",
-        "goetas/xsd-reader":"2.*@dev",
-        "jms/serializer": "xsd2php-dev as 0.18.0",
         "phpmd/phpmd": "@stable",
         "squizlabs/php_codesniffer": "@stable"
     },
@@ -52,7 +52,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "NFePHPTest\\Console\\": "test"
+            "NFePHPTest\\Console\\": "tests/unit"
         }
     },
     "extra": {
