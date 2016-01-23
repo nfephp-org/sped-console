@@ -9,7 +9,7 @@
         "nfephp",
         "xsd"
     ],
-    "homepage": "https://github.com/nfephp-org/sped-classbuilder",
+    "homepage": "https://github.com/nfephp-org/sped-console",
     "license": [
         "GPL-3.0+",
         "LGPL-3.0+"
@@ -18,7 +18,7 @@
         {
             "name": "Antonio Spinelli",
             "email": "tonicospinelli85@gmail.com",
-            "homepage": "http://www.nfephp.org",
+            "homepage": "https://github.com/nfephp-org/sped-console",
             "role": "Developer"
         },
         {
