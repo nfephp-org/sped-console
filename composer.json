@@ -52,7 +52,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "NFePHPTest\\Console\\": "test"
+            "NFePHPTest\\Console\\": "tests/unit"
         }
     },
     "extra": {

@@ -25,24 +25,24 @@ class XsdGeneratePhp extends Command
 
         $converter = new PhpConverter($inputArgs->getNamingStrategy());
 
-        $processor = $this->createPhpProcessor($inputArgs, $output, $converter, new SchemaReader());
+        $processor = $this->createPhpProcessor($inputArgs, $converter, new SchemaReader(), $output);
         $processor->execute($this);
         return 0;
     }
 
     /**
      * @param XsdGeneratePhpArgs $input
-     * @param OutputInterface $output
      * @param PhpConverter $converter
      * @param SchemaReader $schemaReader
+     * @param OutputInterface $output
      * @return XsdGeneratePhpProcessor
      */
     public function createPhpProcessor(
         XsdGeneratePhpArgs $input,
-        OutputInterface $output,
         PhpConverter $converter,
-        SchemaReader $schemaReader
+        SchemaReader $schemaReader,
+        OutputInterface $output
     ) {
-        return new XsdGeneratePhpProcessor($input, $output, $converter, $schemaReader);
+        return new XsdGeneratePhpProcessor($input, $converter, $schemaReader, $output);
     }
 }
