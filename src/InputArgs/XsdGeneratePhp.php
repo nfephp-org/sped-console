@@ -2,9 +2,7 @@
 
 namespace NFePHP\Console\InputArgs;
 
-use Goetas\Xsd\XsdToPhp\Naming\LongNamingStrategy;
-use Goetas\Xsd\XsdToPhp\Naming\NamingStrategy;
-use Goetas\Xsd\XsdToPhp\Naming\ShortNamingStrategy;
+use NFePHP\Console\XsdConverter\Naming\Factory as NamingFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -60,8 +58,10 @@ class XsdGeneratePhp
                 self::OPTION_NAMING_STRATEGY,
                 null,
                 InputOption::VALUE_REQUIRED,
-                'The naming strategy for classes. short|long or class name',
-                'short'
+                'The naming strategy for classes. (' .
+                implode(', ', NamingFactory::getAvailableNamingStrategies()) .
+                ')',
+                NamingFactory::NAMING_SPED
             ),
             new InputOption(
                 self::OPTION_EXTENDS,
@@ -81,18 +81,11 @@ class XsdGeneratePhp
     }
 
     /**
-     * @return NamingStrategy
+     * @return string
      */
     public function getNamingStrategy()
     {
-        $namingStrategy = $this->input->getOption(self::OPTION_NAMING_STRATEGY);
-        if ($namingStrategy == 'short') {
-            return new ShortNamingStrategy();
-        }
-        if ($namingStrategy == 'long') {
-            return new LongNamingStrategy();
-        }
-        return new $namingStrategy;
+        return $this->input->getOption(self::OPTION_NAMING_STRATEGY);
     }
 
     /**

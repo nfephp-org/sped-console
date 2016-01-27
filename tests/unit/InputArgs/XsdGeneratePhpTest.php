@@ -5,6 +5,8 @@ namespace NFePHPTest\Console\InputArgs;
 use Goetas\Xsd\XsdToPhp\Naming\LongNamingStrategy;
 use Goetas\Xsd\XsdToPhp\Naming\ShortNamingStrategy;
 use NFePHP\Console\InputArgs\XsdGeneratePhp;
+use NFePHP\Console\XsdConverter\Naming\Factory;
+use NFePHP\Console\XsdConverter\Naming\SpedStrategy;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -62,9 +64,9 @@ class XsdGeneratePhpTest extends \PHPUnit_Framework_TestCase
             'parent class name' => array('getExtendedClassName', XsdGeneratePhp::OPTION_EXTENDS, \NFePHP\Console\Commands\XsdGeneratePhp::class, 'XsdGeneratePhp'),
             'parent class namespace' => array('getExtendedClassNamespaceName', XsdGeneratePhp::OPTION_EXTENDS, \NFePHP\Console\Commands\XsdGeneratePhp::class, 'NFePHP\Console\Commands'),
             'has parent class' => array('hasExtendedClass', XsdGeneratePhp::OPTION_EXTENDS, \NFePHP\Console\Commands\XsdGeneratePhp::class, true),
-            'short naming strategy' => array('getNamingStrategy', XsdGeneratePhp::OPTION_NAMING_STRATEGY, 'short', new ShortNamingStrategy()),
-            'long naming strategy' => array('getNamingStrategy', XsdGeneratePhp::OPTION_NAMING_STRATEGY, 'long', new LongNamingStrategy()),
-            'custom naming strategy' => array('getNamingStrategy', XsdGeneratePhp::OPTION_NAMING_STRATEGY, '\stdclass', new \stdClass()),
+            'short naming strategy' => array('getNamingStrategy', XsdGeneratePhp::OPTION_NAMING_STRATEGY, 'short', Factory::NAMING_SHORT),
+            'long naming strategy' => array('getNamingStrategy', XsdGeneratePhp::OPTION_NAMING_STRATEGY, 'long', Factory::NAMING_LONG),
+            'sped naming strategy' => array('getNamingStrategy', XsdGeneratePhp::OPTION_NAMING_STRATEGY, 'sped', Factory::NAMING_SPED),
         );
     }
 
@@ -101,8 +103,8 @@ class XsdGeneratePhpTest extends \PHPUnit_Framework_TestCase
                 'shortcut' => null,
                 'is_optional' => false,
                 'is_required' => true,
-                'description' => 'The naming strategy for classes. short|long or class name',
-                'default' => 'short',
+                'description' => 'The naming strategy for classes. (sped, short, long)',
+                'default' => 'sped',
             ),
             array(
                 'name' => XsdGeneratePhp::OPTION_EXTENDS,
