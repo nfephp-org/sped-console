@@ -6,7 +6,6 @@ use Goetas\Xsd\XsdToPhp\Naming\LongNamingStrategy;
 use Goetas\Xsd\XsdToPhp\Naming\ShortNamingStrategy;
 use NFePHP\Console\InputArgs\XsdGeneratePhp;
 use NFePHP\Console\XsdConverter\Naming\Factory;
-use NFePHP\Console\XsdConverter\Naming\SpedStrategy;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -15,7 +14,7 @@ class XsdGeneratePhpTest extends \PHPUnit_Framework_TestCase
 {
     public function testShouldConstruct()
     {
-        $inputMock = $this->getMock(InputInterface::class);
+        $inputMock = $this->createMock(InputInterface::class);
         $this->assertInstanceOf(XsdGeneratePhp::class, new XsdGeneratePhp($inputMock));
     }
 
@@ -28,7 +27,7 @@ class XsdGeneratePhpTest extends \PHPUnit_Framework_TestCase
      */
     public function testTestInputArgumentWrapper($method, $optionName, $value, $expectedValue = null)
     {
-        $inputMock = $this->getMock(InputInterface::class);
+        $inputMock = $this->createMock(InputInterface::class);
         $inputMock->expects($this->any())->method('getArgument')->with($this->equalTo($optionName))->willReturn($value);
         $inputArgs = new XsdGeneratePhp($inputMock);
         $this->assertEquals($expectedValue, call_user_func(array($inputArgs, $method)));
@@ -50,7 +49,7 @@ class XsdGeneratePhpTest extends \PHPUnit_Framework_TestCase
      */
     public function testTestInputOptionWrapper($method, $optionName, $value, $expectedValue = null)
     {
-        $inputMock = $this->getMock(InputInterface::class);
+        $inputMock = $this->createMock(InputInterface::class);
         $inputMock->expects($this->any())->method('getOption')->with($this->equalTo($optionName))->willReturn($value);
         $inputArgs = new XsdGeneratePhp($inputMock);
         $this->assertEquals($expectedValue, call_user_func(array($inputArgs, $method)));

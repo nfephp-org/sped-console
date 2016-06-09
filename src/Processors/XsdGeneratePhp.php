@@ -2,14 +2,14 @@
 
 namespace NFePHP\Console\Processors;
 
-use Goetas\XML\XSDReader\SchemaReader;
 use Goetas\Xsd\XsdToPhp\Php\ClassGenerator;
 use Goetas\Xsd\XsdToPhp\Php\PathGenerator\Psr4PathGenerator;
 use Goetas\Xsd\XsdToPhp\Php\Structure\PHPClass;
+use GoetasWebservices\XML\XSDReader\SchemaReader;
 use NFePHP\Console\InputArgs\XsdGeneratePhp as XsdGeneratePhpArgs;
 use NFePHP\Console\Commands\XsdGeneratePhp as XsdGeneratePhpCommand;
 use NFePHP\Console\XsdConverter\PhpConverter;
-use Symfony\Component\Console\Helper\ProgressHelper;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
 use Zend\Code\Generator\FileGenerator;
 
@@ -151,10 +151,11 @@ class XsdGeneratePhp
         $generator = new ClassGenerator();
         $pathGenerator = new Psr4PathGenerator($targets);
 
-        /** @var ProgressHelper $progressBar */
-        $progressBar = $command->getHelper('progress');
         $items = $converter->convert($schemas);
-        $progressBar->start($this->output, count($items));
+
+        /** @var ProgressBar $progressBar */
+        $progressBar = new ProgressBar($this->output, count($items));
+        $progressBar->start();
 
         $extendClass = null;
         if ($input->hasExtendedClass()) {
@@ -166,7 +167,7 @@ class XsdGeneratePhp
         $skippedFiles = array();
         /** @var PHPClass $item */
         foreach ($items as $item) {
-            $progressBar->advance(1, true);
+            $progressBar->advance();
             $path = $pathGenerator->getPath($item);
 
             $fileGen = new FileGenerator();
@@ -195,7 +196,7 @@ class XsdGeneratePhp
     /**
      * @param XsdGeneratePhpArgs $input
      * @param PhpConverter $converter
-     * @return \Goetas\XML\XSDReader\Schema\Schema[]
+     * @return \GoetasWebservices\XML\XSDReader\Schema\Schema[]
      */
     protected function readSchema(XsdGeneratePhpArgs $input, PhpConverter $converter)
     {

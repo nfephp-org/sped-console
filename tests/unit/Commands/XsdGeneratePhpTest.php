@@ -26,13 +26,15 @@ class XsdGeneratePhpTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('naming-strategy'))
             ->willReturn('short');
 
-        $output = $this->getMock(OutputInterface::class);
+        $output = $this->createMock(OutputInterface::class);
         $processor = $this
             ->getMockBuilder(XsdGeneratePhpProcessor::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $command = $this->getMock(XsdGeneratePhp::class,array('createPhpProcessor'));
+        $command = $this->getMockBuilder(XsdGeneratePhp::class)
+            ->setMethods(['createPhpProcessor'])
+            ->getMock();
         $command->expects($this->once())->method('createPhpProcessor')->willReturn($processor);
 
         $command->run($input, $output);

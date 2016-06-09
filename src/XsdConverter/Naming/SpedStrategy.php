@@ -3,8 +3,8 @@
 namespace NFePHP\Console\XsdConverter\Naming;
 
 use Doctrine\Common\Inflector\Inflector;
-use Goetas\XML\XSDReader\Schema\Item;
-use Goetas\XML\XSDReader\Schema\Type\Type;
+use GoetasWebservices\XML\XSDReader\Schema\Item;
+use GoetasWebservices\XML\XSDReader\Schema\Type\Type;
 use Goetas\Xsd\XsdToPhp\Naming\NamingStrategy;
 
 class SpedStrategy implements NamingStrategy
