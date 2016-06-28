@@ -47,8 +47,8 @@ class XsdGeneratePhp extends Command
         PhpConverter $converter,
         SchemaReader $schemaReader,
         OutputInterface $output
-    )
-    {
+    ) {
+    
         return new XsdGeneratePhpProcessor($input, $converter, $schemaReader, $output);
     }
 }
