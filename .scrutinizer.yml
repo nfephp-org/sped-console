@@ -22,11 +22,11 @@ build:
         before:
             - "sudo composer self-update"
         override:
-            - "composer install --no-dev --no-interaction --prefer-dist"
+            - "composer install --no-interaction"
     tests:
         override:
             -
-                command: 'phpunit -c phpunit.xml.dist --coverage-clover=clover.xml'
+                command: 'composer scrutinizer-coverage'
                 coverage:
                     file: 'clover.xml'
                     format: 'php-clover'
