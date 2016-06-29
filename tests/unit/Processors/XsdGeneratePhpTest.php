@@ -2,15 +2,11 @@
 
 namespace NFePHPTest\Console\Processors;
 
-
-use Goetas\XML\XSDReader\Schema\Schema;
-use Goetas\XML\XSDReader\SchemaReader;
+use GoetasWebservices\XML\XSDReader\SchemaReader;
 use NFePHP\Console\Commands\XsdGeneratePhp as XsdGeneratePhpCommand;
 use NFePHP\Console\InputArgs\XsdGeneratePhp as XsdGeneratePhpArgs;
 use NFePHP\Console\Processors\XsdGeneratePhp;
 use NFePHP\Console\XsdConverter\PhpConverter;
-use Symfony\Component\Console\Formatter\OutputFormatter;
-use Symfony\Component\Console\Output\OutputInterface;
 
 class XsdGeneratePhpTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,7 +21,7 @@ class XsdGeneratePhpTest extends \PHPUnit_Framework_TestCase
             ->getMockBuilder(PhpConverter::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $schemaReader = $this->getMock(SchemaReader::class);
+        $schemaReader = $this->createMock(SchemaReader::class);
         $this->assertInstanceOf(XsdGeneratePhp::class, new XsdGeneratePhp($input, $converter, $schemaReader));
     }
 
@@ -39,7 +35,7 @@ class XsdGeneratePhpTest extends \PHPUnit_Framework_TestCase
             ->getMockBuilder(PhpConverter::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $schemaReader = $this->getMock(SchemaReader::class);
+        $schemaReader = $this->createMock(SchemaReader::class);
 
         $command = $this
             ->getMockBuilder(XsdGeneratePhpCommand::class)

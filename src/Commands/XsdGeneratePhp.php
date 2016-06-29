@@ -2,10 +2,9 @@
 
 namespace NFePHP\Console\Commands;
 
-use Goetas\XML\XSDReader\SchemaReader;
+use GoetasWebservices\XML\XSDReader\SchemaReader;
 use NFePHP\Console\InputArgs\XsdGeneratePhp as XsdGeneratePhpArgs;
 use NFePHP\Console\Processors\XsdGeneratePhp as XsdGeneratePhpProcessor;
-use NFePHP\Console\XsdConverter\Naming\Factory as NamingFactory;
 use NFePHP\Console\XsdConverter\Naming\Factory;
 use NFePHP\Console\XsdConverter\PhpConverter;
 use Symfony\Component\Console\Command\Command;
@@ -48,7 +47,6 @@ class XsdGeneratePhp extends Command
         SchemaReader $schemaReader,
         OutputInterface $output
     ) {
-    
         return new XsdGeneratePhpProcessor($input, $converter, $schemaReader, $output);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace NFePHPTest\Console\XsdConverter\Naming;
 
-use Goetas\XML\XSDReader\Schema\Item;
-use Goetas\XML\XSDReader\Schema\Schema;
-use Goetas\XML\XSDReader\Schema\Type\Type;
+use GoetasWebservices\XML\XSDReader\Schema\Item;
+use GoetasWebservices\XML\XSDReader\Schema\Schema;
+use GoetasWebservices\XML\XSDReader\Schema\Type\Type;
 use Goetas\Xsd\XsdToPhp\Naming\NamingStrategy;
 use NFePHP\Console\XsdConverter\Naming\SpedStrategy;
 
