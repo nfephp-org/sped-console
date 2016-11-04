@@ -30,7 +30,7 @@ class SpedStrategy implements NamingStrategy
      */
     public function getPropertyName($item)
     {
-        return Inflector::camelize(str_replace(".", " ", $item->getName()));
+        return str_replace(".", " ", $item->getName());
     }
 
     private function classify($name)
